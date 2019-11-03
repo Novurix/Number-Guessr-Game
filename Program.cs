@@ -56,10 +56,28 @@ namespace Program
             }
             else
             {
-                hintedNumber = numberNeeded - randomHint;
+                Random addOrPlus = new Random();
+                int randomAOP = addOrPlus.Next(0, 5);
+
+                if (randomAOP >= 1)
+                {
+                    hintedNumber = numberNeeded + randomHint;
+                }
+                else if (randomAOP == 0)
+                {
+                    hintedNumber = numberNeeded - randomHint;
+                }
             }
 
-            Console.WriteLine("Guess a number between 1 & {0}, my number is around {1}",maxAmount.ToString(),hintedNumber);
+            if (hintedNumber > numberNeeded)
+            {
+                Console.WriteLine("Guess a number between 1 & {0}, my number is around but less than {1}", maxAmount.ToString(), hintedNumber);
+            }
+            else
+            {
+                Console.WriteLine("Guess a number between 1 & {0}, my number is around but more than {1}", maxAmount.ToString(), hintedNumber);
+            }
+
             string numInput = Console.ReadLine();
 
             if (numInput == numberNeeded.ToString())
@@ -83,74 +101,77 @@ namespace Program
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
+
+                score += 3 * (numberNeeded / 2);
+                if (score > highscore)
+                {
+                    highscore = score;
+                }
+
                 Console.WriteLine("you're wrong, the answer was " + numberNeeded);
                 Console.ResetColor();
 
-                Console.WriteLine("Your High Score is " + highscore);
-
                 PlayerDecision(userName);
-
-                score = 0;
             }
         }
 
         static void PlayerDecision(string userName)
         {
-            Console.WriteLine("Do you want to continue? [Y] or [N] or if you want to see your HighScore [H]");
+            Console.WriteLine("Do you want to continue? [-Y] or [-N] or if you want to see your HighScore [-H]");
             string decisionInput = Console.ReadLine();
 
             switch (decisionInput)
             {
-                case "[Y]":
+                case "[-Y]":
                     RestartGame(userName);
 
                     break;
 
-                case "Y":
+                case "-Y":
                     RestartGame(userName);
 
                     break;
 
-                case "y":
+                case "-y":
                     RestartGame(userName);
 
                     break;
 
-                case "[N]":
+                case "[-N]":
                     ByeMessage(userName);
 
                     break;
 
-                case "N":
+                case "-N":
                     ByeMessage(userName);
 
                     break;
 
-                case "n":
+                case "-n":
                     ByeMessage(userName);
 
                     break;
 
-                case "[H]":
+                case "[-H]":
                     Console.WriteLine("Your High Score is {0}", highscore);
                     PlayerDecision(userName);
 
                     break;
 
-                case "H":
+                case "-H":
                     Console.WriteLine("Your High Score is {0}", highscore);
                     PlayerDecision(userName);
 
                     break;
 
-                case "h":
+                case "-h":
                     Console.WriteLine("Your High Score is {0}", highscore);
                     PlayerDecision(userName);
 
                     break;
 
                 default:
-                    Console.WriteLine("{0} is not a valid reply", '"' + decisionInput + '"');
+                    Console.WriteLine("{0} is not a valid command, try again.", '"' + decisionInput + '"');
                     PlayerDecision(userName);
                     break;
             }
@@ -163,6 +184,8 @@ namespace Program
             int rand = randoNum.Next(minAmount, maxAmount);
 
             SetGuess(rand, userName);
+            highscore = 0;
+            score = 0;
         }
 
         void GetHighScore()
@@ -174,6 +197,7 @@ namespace Program
         {
             Console.WriteLine("Well, bye {0}", userName);
             Console.WriteLine("Your HighScore was {0}", highscore);
+            Environment.Exit(-1);
         }
     }
 }

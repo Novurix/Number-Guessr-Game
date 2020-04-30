@@ -15,7 +15,7 @@ namespace Program
         {
             string appName = "Number Guessr".ToUpper();
             string appVersion = "1.0.0";
-            string appAuthor = "Dmitri @Novurran";
+            string appAuthor = "Dmitri @Novurix";
 
             Console.ForegroundColor = ConsoleColor.Black;
             //Console.BackgroundColor = ConsoleColor.Black;
